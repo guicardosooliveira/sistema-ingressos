@@ -24,6 +24,7 @@ class TelaEvento:
 
         self.__window = sg.Window('tickets.com').layout(layout)
         button, values = self.__window.read()
+        self.close()
 
         return button, values
 
@@ -43,6 +44,7 @@ class TelaEvento:
 
         window = sg.Window('tickets.com').layout(layout)
         button, values = window.read()
+        self.close()
 
         return button, values
 
@@ -56,6 +58,7 @@ class TelaEvento:
 
         window = sg.Window('tickets.com').layout(layout)
         button, values = window.read()
+        self.close()
 
         return button, values
 
@@ -70,6 +73,8 @@ class TelaEvento:
             string_todos_eventos += '\n'
         sg.popup('-----LISTA DE EVENTOS-----', string_todos_eventos)
 
-
     def mostra_mensagem(self, msg):
         sg.popup("", msg)
+
+    def close(self):
+        self.__window.Close()

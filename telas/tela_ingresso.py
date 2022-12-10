@@ -17,6 +17,7 @@ class TelaIngresso:
 
         self.__window = sg.Window('tickets.com').layout(layout)
         button, values = self.__window.read()
+        self.close()
 
         return button, values
 
@@ -36,6 +37,7 @@ class TelaIngresso:
 
         self.__window = sg.Window('tickets.com').layout(layout)
         button, values = self.__window.read()
+        self.close()
 
         return button, values
 
@@ -49,3 +51,7 @@ class TelaIngresso:
             string_ingressos += ingresso[2]
             string_ingressos += '\n'
         sg.popup('-----MEUS INGRESSOS-----', string_ingressos)
+
+
+    def close(self):
+        self.__window.Close()

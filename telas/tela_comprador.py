@@ -21,6 +21,7 @@ class TelaComprador:
 
         self.__window = sg.Window('Sistema de Ingressos').Layout(layout)
         button, values = self.__window.read()
+        self.close()
 
         return button, values
 
@@ -35,6 +36,7 @@ class TelaComprador:
 
         self.__window = sg.Window('Comprar ingresso').Layout(layout)
         button, values = self.__window.read()
+        self.close()
 
         return button, values
 
