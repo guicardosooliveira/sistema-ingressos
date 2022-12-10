@@ -11,9 +11,6 @@ class TelaComprador:
             [sg.Text('Área do Comprador', size=(40, 2))],
             [sg.Button('Ver meus ingressos')],
             [sg.Button('Ver eventos disponíveis')],
-            [sg.Button('Ver eventos favoritos')],
-            [sg.Button('Favoritar evento')],
-            [sg.Button('Remover evento dos favoritos')],
             [sg.Button('Comprar ingresso')],
             [sg.Button('Excluir conta')],
             [sg.Button('Sair da conta')],
@@ -26,11 +23,12 @@ class TelaComprador:
         return button, values
 
     def pega_dados_para_compra_ingresso(self):
+        print("chegou aqui")
         sg.ChangeLookAndFeel('Material2')
         layout = [
             [sg.Text("---Compra de Ingressos---")],
             [sg.Text("Digite o código do evento que deseja comprar:")],
-            [sg.InputText],
+            [sg.InputText(key="input_codigo_evento")],
             [sg.Submit(), sg.Cancel()]
         ]
 

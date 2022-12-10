@@ -46,9 +46,9 @@ class TelaIngresso:
         for ingresso in ingressos:
             string_ingressos += ingresso[0]
             string_ingressos += ', código: '
-            string_ingressos += ingresso[1]
+            string_ingressos += str(ingresso[1])
             string_ingressos += ', R$'
-            string_ingressos += ingresso[2]
+            string_ingressos += str(ingresso[2])
             string_ingressos += '\n'
         sg.popup('-----MEUS INGRESSOS-----', string_ingressos)
 
