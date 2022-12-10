@@ -99,7 +99,7 @@ class ControladorPrincipal:
                     self.__usuario_logado = produtor
                     deu_certo = True
                     self.__usuario_logado = produtor
-                    self.__controlador_produtor.escolher_acao()
+                    self.__controlador_produtor.mostrar_opcoes_produtor()
                 else:
                     self.__tela_principal.mostra_mensagem(
                         "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")

@@ -77,7 +77,7 @@ class ControladorProdutor:
 
     def excluir_produtor(self):
         usuario_para_excluir = self.__controlador_principal.usuario_logado
-        self.__produtores.remove(usuario_para_excluir.cpf)
+        self.__produtores.remove(usuario_para_excluir)
         self.sair_da_conta()
 
     def sair_da_conta(self):
