@@ -9,23 +9,12 @@ from telas.tela_principal import TelaPrincipal
 
 class ControladorPrincipal:
     def __init__(self):
-        self.__controlador_ingressos = ControladorIngresso()
+        self.__controlador_ingressos = ControladorIngresso(self)
         self.__controlador_evento = ControladorEvento(self.__controlador_ingressos)
-        self.__controlador_comprador = ControladorComprador(self)
+        self.__controlador_comprador = ControladorComprador(self, self.__controlador_evento, self.__controlador_ingressos)
         self.__controlador_produtor = ControladorProdutor(self, self.__controlador_evento)
         self.__tela_principal = TelaPrincipal()
         self.__usuario_logado = None
-
-    def altera_usuario_logado(self, usuario):
-        self.__usuario_logado = usuario
-
-    def deslogar(self):
-        self.__usuario_logado = None
-
-    def finaliza(self):
-        sys.exit()
-
-    # feito
 
     @property
     def usuario_logado(self):
@@ -105,3 +94,12 @@ class ControladorPrincipal:
                         "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
             else:
                 self.__tela_principal.mostra_mensagem("Não existe uma conta cadastrada com esse cpf.")
+
+    def altera_usuario_logado(self, usuario):
+        self.__usuario_logado = usuario
+
+    def deslogar(self):
+        self.__usuario_logado = None
+
+    def finaliza(self):
+        sys.exit()

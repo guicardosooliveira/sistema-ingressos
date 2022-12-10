@@ -24,8 +24,19 @@ class TelaComprador:
 
         return button, values
 
-    def comprador_ja_existe(self):
-        self.mostra_mensagem('Comprador já existe')
+    def pega_dados_para_compra_ingresso(self):
+        sg.ChangeLookAndFeel('Material2')
+        layout = [
+            [sg.Text("---Compra de Ingressos---")],
+            [sg.Text("Digite o código do evento que deseja comprar:")],
+            [sg.InputText],
+            [sg.Submit(), sg.Cancel()]
+        ]
+
+        self.__window = sg.Window('Comprar ingresso').Layout(layout)
+        button, values = self.__window.read()
+
+        return button, values
 
     def open(self):
         button, values = self.__window.Read()

@@ -1,8 +1,11 @@
 from entidades.ingresso import Ingresso
+from telas.tela_ingresso import TelaIngresso
 
 
 class ControladorIngresso:
-    def __init__(self):
+    def __init__(self, controlador_principal):
+        self.__controlador_principal = controlador_principal
+        self.__tela_ingresso = TelaIngresso()
         self.__ingressos = []
 
     @property
@@ -20,11 +23,10 @@ class ControladorIngresso:
 
         return ingressos_gerados
 
-    def excluir_ingressos(self):
-        pass
-
     def listar_ingressos(self):
-        pass
+        lista_ingressos = []
+        for ingresso in self.__controlador_principal.usuario_logado.meus_ingressos:
+            lista_ingressos.append([ingresso.evento, ingresso.codigo, ingresso.valor])
+        self.__tela_ingresso.mostrar_ingressos(lista_ingressos)
 
-    def alterar_ingressos(self):
-        pass
+
