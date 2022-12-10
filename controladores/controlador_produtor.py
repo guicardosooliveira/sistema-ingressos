@@ -42,14 +42,14 @@ class ControladorProdutor:
                   'Editar meus eventos': self.editar_evento,
                   'Excluir meus eventos': self.remover_evento,
                   'Histórico de eventos': self.mostrar_historico_eventos,
-                  'Excluir conta': self.exclui_produtor,
+                  'Excluir conta': self.excluir_produtor,
                   'Sair da conta': self.sair_da_conta}
         opcoes[button]()
 
     def adicionar_evento(self):
         evento = self.__controlador_evento.adicionar_evento()
 
-        if not self.retorna_evento_pelo_codigo(evento.codigo):
+        if self.__controlador_evento.retorna_evento_pelo_codigo(evento.codigo):
             self.incluir_no_historico_eventos(evento.nome, evento.codigo, evento.ingressos[0].valor)
 
         else:
@@ -66,14 +66,8 @@ class ControladorProdutor:
         self.mostrar_opcoes_produtor()
 
     def remover_evento(self):
-        self.__tela_evento.remover_evento()
-
-        codigo = self.__tela_produtor.remover_evento()
-        for evento in self.__eventos:
-            if evento.codigo == codigo:
-                self.__eventos.remove(evento)
-            else:
-                self.__tela_produtor.evento_nao_existe()
+        self.__controlador_evento.remover_evento()
+        self.mostrar_opcoes_produtor()
 
     def mostrar_historico_eventos(self):
         historico_de_eventos = self.__controlador_principal.usuario_logado.historico_eventos
@@ -88,14 +82,6 @@ class ControladorProdutor:
 
     def sair_da_conta(self):
         self.__controlador_principal.inicializa_sistema()
-
-    def retorna_evento_pelo_codigo(self, codigo):
-        pass
-
-    def exclui_produtor(self):
-        usuario_para_excluir = self.__controlador_principal.usuario_logado
-        self.__produtores.remove(usuario_para_excluir)
-        self.sair_da_conta()
 
     def listar_produtores(self):
         return self.__produtores

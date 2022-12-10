@@ -46,7 +46,6 @@ class ControladorEvento:
         return None
 
     def editar_evento(self):
-
         button, dados_atualizados = self.__tela_evento.alterar_evento()
         data = f'{dados_atualizados["input_dia_evento"]}/{dados_atualizados["input_mes_evento"]}/{dados_atualizados["input_ano_evento"]}'
         evento_a_ser_alterado = None
@@ -60,3 +59,16 @@ class ControladorEvento:
             evento_a_ser_alterado.nome = (dados_atualizados['input_nome'])
         else:
             self.__tela_evento.mostra_mensagem("O evento inserido não existe.")
+
+    def remover_evento(self):
+        button, values = self.__tela_evento.remover_evento()
+        codigo_evento_para_ser_excluido = values['input_codigo']
+
+        if not self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido):
+            self.__tela_evento.mostra_mensagem('Não possui evento com esse código!')
+            return None
+        else:
+            evento = self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido)
+            self.__eventos.remove(evento)
+            self.__tela_evento.mostra_mensagem('Evento excluído com sucesso!')
+            return evento
