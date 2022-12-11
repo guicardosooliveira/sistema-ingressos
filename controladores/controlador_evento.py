@@ -14,21 +14,30 @@ class ControladorEvento:
         return self.__eventos
 
     def adicionar_evento(self):
-        buttons, dados_evento = self.__tela_evento.adiciona_evento()
-        data = f'{dados_evento["input_dia_evento"]}/{dados_evento["input_mes_evento"]}/{dados_evento["input_ano_evento"]}'
-        local = Local(dados_evento['input_rua'], dados_evento['input_cep'], dados_evento['input_lotacao'])
-        evento = Evento(dados_evento['input_codigo'], data, dados_evento['input_nome'], local)
+        deu_certo = False
+        while not deu_certo:
 
-        if not self.retorna_evento_pelo_codigo(evento.codigo):
-            self.__eventos.append(evento)
-            ingresso_gerados = self.__controlador_ingressos.gerar_ingressos(dados_evento["input_lotacao"], evento,
-                                                                            dados_evento["input_valor"])
+            button, dados_evento = self.__tela_evento.adiciona_evento()
+            if button == "Cancel":
+                return None
+            elif button is None and dados_evento is None:
+                self.__tela_evento.mostra_mensagem("Os dados inseridos estão incorretos, favor preencher novamente.")
+            else:
+                deu_certo = True
+                data = f'{dados_evento["input_dia_evento"]}/{dados_evento["input_mes_evento"]}/{dados_evento["input_ano_evento"]}'
+                local = Local(dados_evento['input_rua'], dados_evento['input_cep'], dados_evento['input_lotacao'])
+                evento = Evento(dados_evento['input_codigo'], data, dados_evento['input_nome'], local)
 
-            evento.ingressos = ingresso_gerados
-            return evento
+                if not self.retorna_evento_pelo_codigo(evento.codigo):
+                    self.__eventos.append(evento)
+                    ingresso_gerados = self.__controlador_ingressos.gerar_ingressos(dados_evento["input_lotacao"], evento,
+                                                                                    dados_evento["input_valor"])
 
-        else:
-            self.__tela_evento.mostra_mensagem('Codigo de evento ja cadastrado')
+                    evento.ingressos = ingresso_gerados
+                    return evento
+
+                else:
+                    self.__tela_evento.mostra_mensagem('Codigo de evento ja cadastrado')
 
     def listar_eventos_de_um_produtor(self, eventos):
         self.__tela_evento.mostrar_eventos(eventos)
@@ -46,29 +55,48 @@ class ControladorEvento:
         return None
 
     def editar_evento(self):
-        button, dados_atualizados = self.__tela_evento.alterar_evento()
-        data = f'{dados_atualizados["input_dia_evento"]}/{dados_atualizados["input_mes_evento"]}/{dados_atualizados["input_ano_evento"]}'
-        evento_a_ser_alterado = None
-        for evento in self.__eventos:
-            if evento.codigo == dados_atualizados["input_codigo_pra_alterar"]:
-                evento_a_ser_alterado = evento
+        deu_certo = False
+        self.listar_eventos()
+        while not deu_certo:
+            button, dados_atualizados = self.__tela_evento.alterar_evento()
+            if button == "Cancel":
+                break
+            elif button is None and dados_atualizados is None:
+                self.__tela_evento.mostra_mensagem("Os dados inseridos estão incorretos, favor preencher novamente.")
+            else:
+                deu_certo = True
+                data = f'{dados_atualizados["input_dia_evento"]}/{dados_atualizados["input_mes_evento"]}/{dados_atualizados["input_ano_evento"]}'
+                evento_a_ser_alterado = None
+                for evento in self.__eventos:
+                    if evento.codigo == dados_atualizados["input_codigo_pra_alterar"]:
+                        evento_a_ser_alterado = evento
 
-        if evento_a_ser_alterado:
-            evento_a_ser_alterado.codigo = (dados_atualizados['input_codigo'])
-            evento_a_ser_alterado.data = (data)
-            evento_a_ser_alterado.nome = (dados_atualizados['input_nome'])
-        else:
-            self.__tela_evento.mostra_mensagem("O evento inserido não existe.")
+                if evento_a_ser_alterado:
+                    evento_a_ser_alterado.codigo = (dados_atualizados['input_codigo'])
+                    evento_a_ser_alterado.data = (data)
+                    evento_a_ser_alterado.nome = (dados_atualizados['input_nome'])
+                else:
+                    self.__tela_evento.mostra_mensagem("O evento inserido não existe.")
 
     def remover_evento(self):
-        button, values = self.__tela_evento.remover_evento()
-        codigo_evento_para_ser_excluido = values['input_codigo']
+        deu_certo = False
+        self.listar_eventos()
+        while not deu_certo:
+            button, values = self.__tela_evento.remover_evento()
 
-        if not self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido):
-            self.__tela_evento.mostra_mensagem('Não possui evento com esse código!')
-            return None
-        else:
-            evento = self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido)
-            self.__eventos.remove(evento)
-            self.__tela_evento.mostra_mensagem('Evento excluído com sucesso!')
-            return evento
+            if button == "Cancel":
+                break
+            elif button is None and values is None:
+                self.__tela_evento.mostra_mensagem("Os dados inseridos estão incorretos, favor preencher novamente.")
+            else:
+                deu_certo = True
+                codigo_evento_para_ser_excluido = values['input_codigo']
+
+                if not self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido):
+                    self.__tela_evento.mostra_mensagem('Não possui evento com esse código!')
+                    return None
+                else:
+                    evento = self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido)
+                    self.__eventos.remove(evento)
+                    self.__tela_evento.mostra_mensagem('Evento excluído com sucesso!')
+                    return evento

@@ -52,48 +52,62 @@ class ControladorPrincipal:
             self.trata_cadastro()
 
     def trata_cadastro(self):
-        button, values = self.__tela_principal.tela_cadastro()
-
-        if button == 'Comprador':
-            print(values)
-            self.__controlador_comprador.inclui_comprador(values)
-
-        elif button == 'Produtor':
-            print(values)
-            self.__controlador_produtor.inclui_produtor(values)
-
-    def trata_login(self):
-
         deu_certo = False
         while not deu_certo:
-            button, values = self.__tela_principal.tela_login()
-            if button == 'Cancel':
-                break
-            comprador = self.__controlador_comprador.retorna_comprador_pelo_cpf(values['input_cpf'])
-            produtor = self.__controlador_produtor.retorna_produtor_pelo_cpf(values['input_cpf'])
-
-            if comprador:
-                if values['input_senha'] == comprador.senha:
-                    self.__usuario_logado = comprador
-                    deu_certo = True
-                    self.__usuario_logado = comprador
-                    self.__controlador_comprador.mostrar_opcoes_comprador()
-
-                else:
-                    self.__tela_principal.mostra_mensagem(
-                        "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
-
-            elif produtor:
-                if values['input_senha'] == produtor.senha:
-                    self.__usuario_logado = produtor
-                    deu_certo = True
-                    self.__usuario_logado = produtor
-                    self.__controlador_produtor.mostrar_opcoes_produtor()
-                else:
-                    self.__tela_principal.mostra_mensagem(
-                        "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
+            button, values = self.__tela_principal.tela_cadastro()
+            if button == "Cancel":
+                deu_certo = True
+                self.inicializa_sistema()
+            elif button is None:
+                self.__tela_principal.mostra_mensagem("Os dados fornecidos estão incorretos, favor inserir novamente.")
             else:
-                self.__tela_principal.mostra_mensagem("Não existe uma conta cadastrada com esse cpf.")
+                if button == 'Comprador':
+                    print(values)
+                    self.__controlador_comprador.inclui_comprador(values)
+
+                elif button == 'Produtor':
+                    print(values)
+                    self.__controlador_produtor.inclui_produtor(values)
+
+    def trata_login(self):
+        deu_certo = False
+
+        while not deu_certo:
+
+            button, values = self.__tela_principal.tela_login()
+
+            if button == 'Cancel':
+                deu_certo = True
+                self.inicializa_sistema()
+            elif button is None and values is None:
+                self.__tela_principal.mostra_mensagem("Os dados fornecidos estão incorretos, favor inserir novamente.")
+            else:
+                comprador = self.__controlador_comprador.retorna_comprador_pelo_cpf(values['input_cpf'])
+                produtor = self.__controlador_produtor.retorna_produtor_pelo_cpf(values['input_cpf'])
+
+                if comprador:
+                    if values['input_senha'] == comprador.senha:
+                        self.__usuario_logado = comprador
+                        deu_certo = True
+                        self.__usuario_logado = comprador
+                        self.__controlador_comprador.mostrar_opcoes_comprador()
+
+                    else:
+                        self.__tela_principal.mostra_mensagem(
+                            "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
+
+                elif produtor:
+                    if values['input_senha'] == produtor.senha:
+                        self.__usuario_logado = produtor
+                        deu_certo = True
+                        self.__usuario_logado = produtor
+                        self.__controlador_produtor.mostrar_opcoes_produtor()
+                    else:
+                        self.__tela_principal.mostra_mensagem(
+                            "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
+                else:
+                    self.__tela_principal.mostra_mensagem("Não existe uma conta cadastrada com esse cpf.")
+
 
     def altera_usuario_logado(self, usuario):
         self.__usuario_logado = usuario

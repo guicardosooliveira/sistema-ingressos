@@ -48,12 +48,12 @@ class ControladorProdutor:
 
     def adicionar_evento(self):
         evento = self.__controlador_evento.adicionar_evento()
+        if evento:
+            if self.__controlador_evento.retorna_evento_pelo_codigo(evento.codigo):
+                self.incluir_no_historico_eventos(evento.nome, evento.codigo, evento.ingressos[0].valor)
 
-        if self.__controlador_evento.retorna_evento_pelo_codigo(evento.codigo):
-            self.incluir_no_historico_eventos(evento.nome, evento.codigo, evento.ingressos[0].valor)
-
-        else:
-            self.__tela_produtor.mostra_mensagem('Evento ja existe')
+            else:
+                self.__tela_produtor.mostra_mensagem('Evento ja existe')
 
         self.mostrar_opcoes_produtor()
 

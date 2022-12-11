@@ -36,7 +36,15 @@ class TelaComprador:
         button, values = self.__window.read()
         self.close()
 
-        return button, values
+        #tratamento de dados
+        codigo = values["input_codigo_evento"]
+        try:
+            if button == "Submit" and (codigo == "" or not codigo.isdigit()):
+                raise ValueError
+            else:
+                return button, values
+        except ValueError:
+            return None, None
 
     def open(self):
         button, values = self.__window.Read()
