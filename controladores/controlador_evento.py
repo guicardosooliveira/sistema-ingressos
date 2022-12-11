@@ -45,7 +45,10 @@ class ControladorEvento:
     def listar_eventos(self):
         eventos = []
         for evento in self.__eventos:
-            eventos.append([evento.nome, evento.codigo, evento.ingressos[0].valor])
+            if len(evento.ingressos) > 0:
+                eventos.append([evento.nome, evento.codigo, evento.ingressos[0].valor])
+            else:
+                continue
         self.__tela_evento.mostrar_eventos(eventos)
 
     def retorna_evento_pelo_codigo(self, codigo):
