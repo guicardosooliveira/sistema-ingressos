@@ -39,11 +39,8 @@ class TelaPrincipal:
         senha = values["input_senha"]
 
         try:
-            if (button == "Submit" and (senha == "" or cpf == "")) or not cpf.isdigit():
+            if (button == "Submit" and ((senha == "" or cpf == "") or not cpf.isdigit())):
                 raise ValueError
-
-            elif button == "Cancel":
-                return "Cancel", {'input_cpf': '', 'input_senha': ''}
             else:
                 return button, values
         except (ValueError, TypeError):
