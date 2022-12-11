@@ -26,7 +26,7 @@ class TelaEvento:
         button, values = self.__window.read()
         self.close()
 
-        #tratamento de dados
+        # tratamento de dados
         codigo = values["input_codigo"]
         dia = values["input_dia_evento"]
         mes = values["input_mes_evento"]
@@ -38,8 +38,8 @@ class TelaEvento:
         valor = values["input_valor"]
 
         try:
-            if button == "Submit" and (codigo =="" or dia =="" or mes =="" or ano =="" or nome =="" or rua =="" or
-                                       cep =="" or lotacao =="" or valor ==""):
+            if button == "Submit" and (codigo == "" or dia == "" or mes == "" or ano == "" or nome == "" or rua == "" or
+                                       cep == "" or lotacao == "" or valor == ""):
                 raise ValueError
             elif button == "Submit" and ((not codigo.isdigit()) or (not cep.isdigit()) or (not lotacao.isdigit()) or
                                          (not valor.isdigit()) or (not dia.isdigit()) or (not mes.isdigit()) or
@@ -66,11 +66,11 @@ class TelaEvento:
             [sg.Submit(), sg.Cancel()]
         ]
 
-        window = sg.Window('tickets.com').layout(layout)
-        button, values = window.read()
+        self.__window = sg.Window('tickets.com').layout(layout)
+        button, values = self.__window.read()
         self.close()
 
-        #tratamento de dados
+        # tratamento de dados
         codigo_para_alterar = values["input_codigo_pra_alterar"]
         codigo = values["input_codigo"]
         dia = values["input_dia_evento"]
@@ -92,7 +92,6 @@ class TelaEvento:
         except ValueError:
             return None, None
 
-
     def remover_evento(self):
         sg.ChangeLookAndFeel('Material2')
         layout = [
@@ -101,11 +100,11 @@ class TelaEvento:
             [sg.Submit(), sg.Cancel()]
         ]
 
-        window = sg.Window('tickets.com').layout(layout)
-        button, values = window.read()
+        self.__window = sg.Window('tickets.com').layout(layout)
+        button, values = self.__window.read()
         self.close()
 
-        #tratamento de dados
+        # tratamento de dados
         codigo = values["input_codigo"]
 
         try:

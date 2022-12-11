@@ -33,7 +33,8 @@ class ControladorEvento:
 
                     if not self.retorna_evento_pelo_codigo(evento.codigo):
                         self.__eventos.append(evento)
-                        ingresso_gerados = self.__controlador_ingressos.gerar_ingressos(dados_evento["input_lotacao"], evento,
+                        ingresso_gerados = self.__controlador_ingressos.gerar_ingressos(dados_evento["input_lotacao"],
+                                                                                        evento,
                                                                                         dados_evento["input_valor"])
 
                         evento.ingressos = ingresso_gerados
@@ -87,7 +88,8 @@ class ControladorEvento:
                     else:
                         raise CodigoNotFoundException
                 except CodigoNotFoundException:
-                    self.__tela_evento.mostra_mensagem("Não existe um evento com o código inserido, favor tente novamente.")
+                    self.__tela_evento.mostra_mensagem(
+                        "Não existe um evento com o código inserido, favor tente novamente.")
 
     def remover_evento(self):
         deu_certo = False
@@ -101,16 +103,16 @@ class ControladorEvento:
                 self.__tela_evento.mostra_mensagem("Os dados inseridos estão incorretos, favor preencher novamente.")
             else:
                 try:
-                    deu_certo = True
                     codigo_evento_para_ser_excluido = values['input_codigo']
-
                     if not self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido):
                         raise CodigoNotFoundException
                     else:
+                        deu_certo = True
                         evento = self.retorna_evento_pelo_codigo(codigo_evento_para_ser_excluido)
                         self.__eventos.remove(evento)
                         self.__tela_evento.mostra_mensagem('Evento excluído com sucesso!')
                         return evento
                 except CodigoNotFoundException:
-                    self.__tela_evento.mostra_mensagem('Não existe um evento com o código inserido, favor tente novamente.')
+                    self.__tela_evento.mostra_mensagem(
+                        'Não existe um evento com o código inserido, favor tente novamente.')
                     return None

@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 
+
 class TelaIngresso:
     def __init__(self):
         self.__window = None
@@ -14,7 +15,6 @@ class TelaIngresso:
             string_ingressos += str(ingresso[2])
             string_ingressos += '\n'
         sg.popup('-----MEUS INGRESSOS-----', string_ingressos)
-
 
     def close(self):
         self.__window.Close()

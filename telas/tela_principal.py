@@ -27,14 +27,14 @@ class TelaPrincipal:
             [sg.Text("Digite seus dados:")],
             [sg.Text("Cpf", size=(15, 1)), sg.InputText(key='input_cpf')],
             [sg.Text("Senha", size=(15, 1)), sg.InputText(key='input_senha')],
-            [sg.Submit(), sg.Cancel()]
+            [sg.Submit('Confirmar'), sg.Cancel()]
         ]
 
         self.__window = sg.Window('Sistema de Ingressos').Layout(layout)
         button, values = self.__window.read()
         self.close()
 
-        #tratamento de dados
+        # tratamento de dados
         cpf = values["input_cpf"]
         senha = values["input_senha"]
 
@@ -45,7 +45,6 @@ class TelaPrincipal:
                 return button, values
         except (ValueError, TypeError):
             return None, None
-
 
     def tela_cadastro(self):
         sg.ChangeLookAndFeel('Material2')
@@ -59,14 +58,13 @@ class TelaPrincipal:
             [sg.Text("Senha", size=(15, 1)), sg.InputText(key='input_senha')],
             [sg.Text("Como voce deseja se cadastrar?")],
             [sg.Button("Comprador"), sg.Button("Produtor")],
-            [sg.Cancel()]
         ]
 
         self.__window = sg.Window('Sistema de Ingressos').Layout(layout)
         button, values = self.__window.read()
         self.close()
 
-        #tratamento de dados
+        # tratamento de dados
         nome = values["input_nome"]
         cpf = values["input_cpf"]
         email = values["input_email"]
