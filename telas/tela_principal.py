@@ -38,7 +38,7 @@ class TelaPrincipal:
         senha = values["input_senha"]
 
         try:
-            if (button == "Submit" and (senha == "" or cpf == "")) or cpf.isdigit():
+            if (button == "Submit" and (senha == "" or cpf == "")) or not cpf.isdigit():
                 raise ValueError
 
             elif button == "Cancel":
@@ -79,7 +79,7 @@ class TelaPrincipal:
             if (button == "Comprador" or button == "Produtor") and (nome == "" or cpf == "" or email == "" or
                                                                     celular == "" or senha == ""):
                 raise ValueError
-            elif not cpf.isdigit() or not celular.isdigit():
+            elif (button == "Comprador" or button == "Produtor") and (not cpf.isdigit() or not celular.isdigit()):
                 raise ValueError
             else:
                 return button, values
