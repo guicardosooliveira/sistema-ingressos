@@ -11,6 +11,7 @@ class TelaPrincipal:
             [sg.Text('Bem-vindo ao tickets.com', size=(40, 2))],
             [sg.Button('Registre-se')],
             [sg.Button('Login')],
+            [sg.Button('Sair')]
         ]
 
         self.__window = sg.Window('Sistema de Ingressos').Layout(layout)

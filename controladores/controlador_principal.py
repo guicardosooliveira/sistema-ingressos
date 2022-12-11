@@ -48,8 +48,10 @@ class ControladorPrincipal:
         opcao = self.__tela_principal.escolher_login_ou_cadastro()
         if opcao == "Login":
             self.trata_login()
-        else:
+        elif opcao == "Registre-se":
             self.trata_cadastro()
+        else:
+            self.finaliza()
 
     def trata_cadastro(self):
         deu_certo = False
