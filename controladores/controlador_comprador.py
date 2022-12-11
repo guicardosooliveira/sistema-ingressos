@@ -1,5 +1,6 @@
 from entidades.comprador import Comprador
 from telas.tela_comprador import TelaComprador
+from exceptions.cpfEmUsoException import CpfEmUsoException
 
 
 class ControladorComprador:
@@ -59,14 +60,14 @@ class ControladorComprador:
         try:
             for i in self.__compradores:
                 if comprador.cpf == i.cpf:
-                    raise SystemError
+                    raise CpfEmUsoException()
             else:
                 self.__compradores.append(comprador)
                 self.__controlador_principal.altera_usuario_logado(comprador)
                 self.mostrar_opcoes_comprador()
 
                 return comprador
-        except SystemError:
+        except CpfEmUsoException:
             self.__tela_comprador.mostra_mensagem("O cpf fornecido está vinculado a outra conta. Tente Novamente.")
 
     def mostrar_opcoes_comprador(self):

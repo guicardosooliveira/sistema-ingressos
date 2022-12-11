@@ -1,5 +1,6 @@
 from entidades.produtor import Produtor
 from telas.tela_produtor import TelaProdutor
+from exceptions.cpfEmUsoException import CpfEmUsoException
 
 
 class ControladorProdutor:
@@ -25,14 +26,14 @@ class ControladorProdutor:
         try:
             for i in self.__produtores:
                 if produtor.cpf == i.cpf:
-                    raise SystemError
+                    raise CpfEmUsoException
             else:
                 self.__produtores.append(produtor)
                 self.__controlador_principal.altera_usuario_logado(produtor)
                 self.mostrar_opcoes_produtor()
 
                 return produtor
-        except SystemError:
+        except CpfEmUsoException:
             self.__tela_produtor.produtor_ja_existe()
 
     def mostrar_opcoes_produtor(self):

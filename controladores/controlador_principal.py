@@ -1,10 +1,10 @@
-import datetime
 import sys
 from controladores.controlador_comprador import ControladorComprador
 from controladores.controlador_evento import ControladorEvento
 from controladores.controlador_ingresso import ControladorIngresso
 from controladores.controlador_produtor import ControladorProdutor
 from telas.tela_principal import TelaPrincipal
+from exceptions.cpfNotFoundException import CpfNotFoundException
 
 
 class ControladorPrincipal:
@@ -64,11 +64,9 @@ class ControladorPrincipal:
                 self.__tela_principal.mostra_mensagem("Os dados fornecidos estão incorretos, favor inserir novamente.")
             else:
                 if button == 'Comprador':
-                    print(values)
                     self.__controlador_comprador.inclui_comprador(values)
 
                 elif button == 'Produtor':
-                    print(values)
                     self.__controlador_produtor.inclui_produtor(values)
 
     def trata_login(self):
@@ -84,30 +82,33 @@ class ControladorPrincipal:
             elif button is None and values is None:
                 self.__tela_principal.mostra_mensagem("Os dados fornecidos estão incorretos, favor inserir novamente.")
             else:
-                comprador = self.__controlador_comprador.retorna_comprador_pelo_cpf(values['input_cpf'])
-                produtor = self.__controlador_produtor.retorna_produtor_pelo_cpf(values['input_cpf'])
+                try:
+                    comprador = self.__controlador_comprador.retorna_comprador_pelo_cpf(values['input_cpf'])
+                    produtor = self.__controlador_produtor.retorna_produtor_pelo_cpf(values['input_cpf'])
 
-                if comprador:
-                    if values['input_senha'] == comprador.senha:
-                        self.__usuario_logado = comprador
-                        deu_certo = True
-                        self.__usuario_logado = comprador
-                        self.__controlador_comprador.mostrar_opcoes_comprador()
+                    if comprador:
+                        if values['input_senha'] == comprador.senha:
+                            self.__usuario_logado = comprador
+                            deu_certo = True
+                            self.__usuario_logado = comprador
+                            self.__controlador_comprador.mostrar_opcoes_comprador()
 
+                        else:
+                            self.__tela_principal.mostra_mensagem(
+                                "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
+
+                    elif produtor:
+                        if values['input_senha'] == produtor.senha:
+                            self.__usuario_logado = produtor
+                            deu_certo = True
+                            self.__usuario_logado = produtor
+                            self.__controlador_produtor.mostrar_opcoes_produtor()
+                        else:
+                            self.__tela_principal.mostra_mensagem(
+                                "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
                     else:
-                        self.__tela_principal.mostra_mensagem(
-                            "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
-
-                elif produtor:
-                    if values['input_senha'] == produtor.senha:
-                        self.__usuario_logado = produtor
-                        deu_certo = True
-                        self.__usuario_logado = produtor
-                        self.__controlador_produtor.mostrar_opcoes_produtor()
-                    else:
-                        self.__tela_principal.mostra_mensagem(
-                            "A senha cadastrada não confere com o cpf inserido. Tente Novamente.")
-                else:
+                        raise CpfNotFoundException()
+                except CpfNotFoundException:
                     self.__tela_principal.mostra_mensagem("Não existe uma conta cadastrada com esse cpf.")
 
 
