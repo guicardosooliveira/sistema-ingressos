@@ -1,3 +1,4 @@
+from datetime import datetime
 from telas.tela_evento import TelaEvento
 from entidades.evento import Evento
 from entidades.local import Local
@@ -19,7 +20,7 @@ class ControladorEvento:
         deu_certo = False
         while not deu_certo:
 
-            button, dados_evento = self.__tela_evento.adiciona_evento()
+            button, dados_evento, data = self.__tela_evento.adiciona_evento()
             if button == "Cancel":
                 return None
             elif button is None and dados_evento is None:
@@ -27,7 +28,7 @@ class ControladorEvento:
             else:
                 try:
                     deu_certo = True
-                    data = f'{dados_evento["input_dia_evento"]}/{dados_evento["input_mes_evento"]}/{dados_evento["input_ano_evento"]}'
+                    ##data = f'{dados_evento["input_dia_evento"]}/{dados_evento["input_mes_evento"]}/{dados_evento["input_ano_evento"]}'
                     local = Local(dados_evento['input_rua'], dados_evento['input_cep'], dados_evento['input_lotacao'])
                     evento = Evento(dados_evento['input_codigo'], data, dados_evento['input_nome'], local)
 
@@ -51,7 +52,7 @@ class ControladorEvento:
     def listar_eventos(self):
         eventos = []
         for evento in self.__eventos:
-            if len(evento.ingressos) > 0:
+            if len(evento.ingressos) > 0 and evento.data >= datetime.today():
                 eventos.append([evento.nome, evento.codigo, evento.ingressos[0].valor])
             else:
                 continue
@@ -67,7 +68,7 @@ class ControladorEvento:
         deu_certo = False
         self.listar_eventos()
         while not deu_certo:
-            button, dados_atualizados = self.__tela_evento.alterar_evento()
+            button, dados_atualizados, data = self.__tela_evento.alterar_evento()
             if button == "Cancel":
                 break
             elif button is None and dados_atualizados is None:
@@ -75,7 +76,6 @@ class ControladorEvento:
             else:
                 try:
                     deu_certo = True
-                    data = f'{dados_atualizados["input_dia_evento"]}/{dados_atualizados["input_mes_evento"]}/{dados_atualizados["input_ano_evento"]}'
                     evento_a_ser_alterado = None
                     for evento in self.__eventos:
                         if evento.codigo == dados_atualizados["input_codigo_pra_alterar"]:

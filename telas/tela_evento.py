@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from datetime import datetime
 
 
 class TelaEvento:
@@ -38,19 +39,22 @@ class TelaEvento:
         valor = values["input_valor"]
 
         try:
-            if button == "Submit" and (codigo == "" or dia == "" or mes == "" or ano == "" or nome == "" or rua == "" or
-                                       cep == "" or lotacao == "" or valor == ""):
+            data = f"{dia}/{mes}/{ano}"
+            if button == "Cancel":
+                return button, values, data
+            elif button == "Submit" and (codigo == "" or dia == "" or mes == "" or ano == "" or nome == "" or rua == "" or
+                                         cep == "" or lotacao == "" or valor == ""):
                 raise ValueError
             elif button == "Submit" and ((not codigo.isdigit()) or (not cep.isdigit()) or (not lotacao.isdigit()) or
                                          (not valor.isdigit()) or (not dia.isdigit()) or (not mes.isdigit()) or
                                          (not ano.isdigit())):
                 raise ValueError
-            elif button == "Submit" and (31 < int(dia) or 1 > int(dia) or int(mes) > 12 or int(mes) < 1):
-                raise ValueError
+
             else:
-                return button, values
+                data_atualizada = datetime.strptime(data, "%d/%m/%Y")
+                return button, values, data_atualizada
         except ValueError:
-            return None, None
+            return None, None, None
 
     def alterar_evento(self):
         sg.ChangeLookAndFeel('Material2')
@@ -79,18 +83,20 @@ class TelaEvento:
         nome = values["input_nome"]
 
         try:
-            if button == "Submit" and (codigo_para_alterar == "" or codigo == "" or dia == "" or mes == "" or
+            data = f"{dia}/{mes}/{ano}"
+            if button == "Cancel":
+                return button, values, data
+            elif button == "Submit" and (codigo_para_alterar == "" or codigo == "" or dia == "" or mes == "" or
                                        ano == "" or nome == ""):
                 raise ValueError
             elif button == "Submit" and ((not codigo.isdigit()) or (not dia.isdigit()) or (not mes.isdigit()) or
                                          (not ano.isdigit()) or (not codigo_para_alterar.isdigit())):
                 raise ValueError
-            elif button == "Submit" and (31 < int(dia) or 1 > int(dia) or int(mes) > 12 or int(mes) < 1):
-                raise ValueError
             else:
-                return button, values
+                data_atualizada = datetime.strptime(data, "%d/%m/%Y")
+                return button, values, data_atualizada
         except ValueError:
-            return None, None
+            return None, None, None
 
     def remover_evento(self):
         sg.ChangeLookAndFeel('Material2')
