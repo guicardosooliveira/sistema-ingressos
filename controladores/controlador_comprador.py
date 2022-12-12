@@ -10,39 +10,6 @@ class ControladorComprador:
         self.__controlador_ingressos = controlador_ingressos
         self.__compradores = []
         self.__tela_comprador = TelaComprador()
-        self.__tela_aberta = False
-
-    def comprar_ingresso(self):
-        deu_certo = False
-        self.__controlador_evento.listar_eventos()
-        while not deu_certo:
-            button, codigo_evento = self.__tela_comprador.pega_dados_para_compra_ingresso()
-            if button is None and codigo_evento is None:
-                self.__tela_comprador.mostra_mensagem("O formato de código inserido não é válido. "
-                                                      "Insira um número válido e tente novamente.")
-            elif button == "Cancel":
-                self.mostrar_opcoes_comprador()
-            else:
-                deu_certo = True
-                ingresso = None
-                for evento in self.__controlador_evento.eventos:
-                    if codigo_evento["input_codigo_evento"] == evento.codigo:
-                        if len(evento.ingressos) > 0:
-                            ingresso = evento.ingressos[0]
-                            evento.ingressos.remove(ingresso)
-                            evento.ingressos_vendidos.append(ingresso)
-                            self.__controlador_principal.usuario_logado.meus_ingressos.append(ingresso)
-                            self.__tela_comprador.mostra_mensagem("Ingresso comprado com sucesso!")
-                            self.mostrar_opcoes_comprador()
-
-                        else:
-                            self.__tela_comprador.mostra_mensagem("Os ingressos para o evento fornecido estão esgotados")
-                            self.mostrar_opcoes_comprador()
-                if not ingresso:
-                    self.__tela_comprador.mostra_mensagem("O código de evento fornecido não existe")
-                    self.mostrar_opcoes_comprador()
-
-    # pronto
 
     @property
     def compradores(self):
@@ -78,6 +45,36 @@ class ControladorComprador:
                   'Excluir conta': self.excluir_comprador,
                   'Sair da conta': self.sair_da_conta}
         opcoes[button]()
+
+    def comprar_ingresso(self):
+        deu_certo = False
+        self.__controlador_evento.listar_eventos()
+        while not deu_certo:
+            button, codigo_evento = self.__tela_comprador.pega_dados_para_compra_ingresso()
+            if button is None and codigo_evento is None:
+                self.__tela_comprador.mostra_mensagem("O formato de código inserido não é válido. "
+                                                      "Insira um número válido e tente novamente.")
+            elif button == "Cancel":
+                self.mostrar_opcoes_comprador()
+            else:
+                deu_certo = True
+                ingresso = None
+                for evento in self.__controlador_evento.eventos:
+                    if codigo_evento["input_codigo_evento"] == evento.codigo:
+                        if len(evento.ingressos) > 0:
+                            ingresso = evento.ingressos[0]
+                            evento.ingressos.remove(ingresso)
+                            evento.ingressos_vendidos.append(ingresso)
+                            self.__controlador_principal.usuario_logado.meus_ingressos.append(ingresso)
+                            self.__tela_comprador.mostra_mensagem("Ingresso comprado com sucesso!")
+                            self.mostrar_opcoes_comprador()
+
+                        else:
+                            self.__tela_comprador.mostra_mensagem("Os ingressos para o evento fornecido estão esgotados")
+                            self.mostrar_opcoes_comprador()
+                if not ingresso:
+                    self.__tela_comprador.mostra_mensagem("O código de evento fornecido não existe")
+                    self.mostrar_opcoes_comprador()
 
     def ver_meus_ingressos(self):
         self.__controlador_ingressos.listar_ingressos()

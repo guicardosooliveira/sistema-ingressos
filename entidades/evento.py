@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class Evento:
-    def __init__(self, codigo: int, data: str, nome: str,
+    def __init__(self, codigo: int, data: datetime, nome: str,
                  local: Local):
         self.__codigo = codigo
         self.__data = data

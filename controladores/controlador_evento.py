@@ -28,7 +28,6 @@ class ControladorEvento:
             else:
                 try:
                     deu_certo = True
-                    ##data = f'{dados_evento["input_dia_evento"]}/{dados_evento["input_mes_evento"]}/{dados_evento["input_ano_evento"]}'
                     local = Local(dados_evento['input_rua'], dados_evento['input_cep'], dados_evento['input_lotacao'])
                     evento = Evento(dados_evento['input_codigo'], data, dados_evento['input_nome'], local)
 

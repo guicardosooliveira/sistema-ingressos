@@ -9,7 +9,6 @@ class ControladorProdutor:
         self.__controlador_evento = controlador_evento
         self.__produtores = []
         self.__tela_produtor = TelaProdutor()
-        self.__tela_aberta = False
 
     @property
     def produtores(self):
@@ -83,9 +82,6 @@ class ControladorProdutor:
 
     def sair_da_conta(self):
         self.__controlador_principal.inicializa_sistema()
-
-    def listar_produtores(self):
-        return self.__produtores
 
     def incluir_no_historico_eventos(self, nome, codigo, valor):
         self.__controlador_principal.usuario_logado.historico_eventos.append([nome, codigo, valor])

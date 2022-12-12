@@ -24,9 +24,6 @@ class TelaProdutor:
 
         return button, values
 
-    def produtor_ja_existe(self):
-        self.mostra_mensagem('Produtor já existe')
-
     def mostra_mensagem(self, msg):
         sg.popup("", msg)
 
