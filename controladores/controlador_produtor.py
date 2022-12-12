@@ -34,7 +34,7 @@ class ControladorProdutor:
 
                 return produtor
         except CpfEmUsoException:
-            self.__tela_produtor.produtor_ja_existe()
+            self.__tela_produtor.mostra_mensagem("O cpf fornecido está vinculado a outra conta. Tente Novamente.")
 
     def mostrar_opcoes_produtor(self):
         button, values = self.__tela_produtor.mostrar_opcoes()
